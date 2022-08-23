@@ -78,7 +78,8 @@ export default class LinkedList {
     // in case we got the same value in consecutive nodes [3,3,3]
     let currentNode = this.head;
     // we use currentNode.next as we assume that we have checked the head value
-    while (currentNode.next) {
+
+    while (currentNode && currentNode.next) {
       if (currentNode.next.value === value) {
         deletedNode = currentNode.next;
         currentNode.next = currentNode.next.next;
@@ -90,19 +91,17 @@ export default class LinkedList {
     if (this.tail.value === value) this.tail = currentNode;
     return deletedNode;
   }
-  searchByValue(value = undefined) {
+  findByValue(value = undefined, callback = undefined) {
     if (this.head === null) return null;
     let currentNode = this.head;
     while (currentNode) {
-      if (currentNode.value === value) {
-        return currentNode;
-      } else {
-        currentNode = currentNode.next;
-      }
+      if (callback && callback(currentNode.value)) return currentNode;
+      if (value && currentNode.value === value) return currentNode;
+      currentNode = currentNode.next;
     }
     return null;
   }
-  searchByIndex(index = undefined) {
+  findByIndex(index = undefined) {
     if (this.head === null) return null;
     let currentNode = this.head;
     let counter = 0;
@@ -127,7 +126,7 @@ export default class LinkedList {
     let currentNode = this.head;
     let counter = 0;
     let deletedTail = this.tail;
-    while (counter < this.length -2) {
+    while (counter < this.length - 2) {
       currentNode = currentNode.next;
     }
     this.tail = currentNode;
@@ -146,7 +145,7 @@ export default class LinkedList {
     return deletedHead;
   }
   fromArray(values) {
-    values.forEach(value => {
+    values.forEach((value) => {
       this.append(value);
     });
   }
@@ -155,20 +154,21 @@ export default class LinkedList {
     let currentNode = this.head;
     while (currentNode) {
       nodesValues.push(currentNode.value);
-      currentNode = currentNode.next();
+      currentNode = currentNode.next;
     }
+    return nodesValues;
   }
   reverse() {
     let currentNode = this.head;
     let prevNode = null;
     let nextNode = null;
-    this.tail = this.head;
     while (currentNode) {
-     nextNode = currentNode.next;
-     currentNode.next = prevNode;
-     prevNode = currentNode;
-     currentNode = nextNode;
+      nextNode = currentNode.next;
+      currentNode.next = prevNode;
+      prevNode = currentNode;
+      currentNode = nextNode;
     }
+    this.tail = this.head;
     this.head.next = null;
     this.head = prevNode;
     return this;
