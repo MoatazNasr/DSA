@@ -1,5 +1,5 @@
 import LinkedList from "../Singly LinkedList/LinkedList";
-const defaultHashTableSize = 10;
+const defaultHashTableSize = 32;
 export default class HashTable {
   constructor(hashTableSize = defaultHashTableSize) {
     this.buckets = Array(hashTableSize)
@@ -8,13 +8,18 @@ export default class HashTable {
     this.keys = {};
   }
   hash(key) {
-    const hash = Array.from(key).reduce(
-      (hashAccumulator, keySymbol) => hashAccumulator + keySymbol.charCodeAt(0),
-      0
-    );
-    // take each key and make it iteratable then
-    // reduce it to one value as summation between hashAccumulator and keySymbol
-    return hash % this.buckets.length;
+    let hash = 0;
+    if (typeof key === "string") {
+      hash = Array.from(key).reduce(
+        (hashAccumulator, keySymbol) =>
+          hashAccumulator + keySymbol.charCodeAt(0),
+        0
+      );
+      // take each key and make it iteratable then
+      // reduce it to one value as summation between hashAccumulator and keySymbol
+      return hash % this.buckets.length;
+    }
+    return Math.abs(key) % this.buckets.length;
   }
   set(key, value) {
     const hashedKey = this.hash(key);
@@ -58,11 +63,14 @@ export default class HashTable {
   }
   getValues() {
     return this.buckets.reduce((values, bucket) => {
-      const bucketValues = bucket
-        .toArray()
-        .map((NodeValue) => NodeValue.value);
-        // nodeValue represent the object that contains key and value , { key , value }
+      const bucketValues = bucket.toArray().map((NodeValue) => NodeValue.value);
+      // nodeValue represent the object that contains key and value , { key , value }
       return values.concat(bucketValues);
     }, []);
   }
+  size() {
+    return Object.keys(this.keys).length;
+    // return the actual occupied size of hash table
+  }
 }
+
