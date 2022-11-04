@@ -1,4 +1,5 @@
 // it looks like binary tree and the traversal is done as post order (left - right - root)
+// a divide and conquer algo
 // pros -------------------------------------------
 //  of merge sort , suitable for :: large size array , merging two linked list , external sorting (in files)
 // stable (preserve the order of duplicated elements in the array) ex :  1 2 5 4 8 6 9 8
