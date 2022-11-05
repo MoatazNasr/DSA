@@ -22,7 +22,7 @@ export default class QuickSort {
     // randomPartition function for both partition algorithms
     let randomPivot = l + Math.floor(Math.random() * (h - l + 1));
     // pick random pivot ranges from l to h
-    this.#swap(arr, randomPivot, h);
+    this.#swap(arr, randomPivot, l);
     // horae's swap (randomPivot, l)
     // lomuto's swap (randomPivot, h)
     return this.#partition(arr, l, h);
@@ -58,7 +58,7 @@ export default class QuickSort {
     // }
   }
   #quickSort(arr, l, h) {
-    if (l >= h) return arr;
+    // if (l >= h) return arr;
     // let pi = this.#randomPartition(arr, l, h);
     // this.#quickSort(arr, l, pi - 1);
     // // if lomuto's pi - 1
@@ -66,13 +66,14 @@ export default class QuickSort {
     // // sort the subarray before pivot
     // this.#quickSort(arr, pi + 1, h);
     // // sort the subarray after pivot
-    // tail recursion for quickosrt
+
+    // tail recursion for quicksort reduce n space to logn
     while (l < h) {
       let pi = this.#partition(arr, l, h);
       // If left part is smaller, then recur for left
       // part and handle right part iteratively
       if (pi - l < h - pi) {
-        this.#quickSort(arr, l, pi);
+        this.#quickSort(arr, l, pi - 1);
         l = pi + 1;
       }
       // Else recur for right part
@@ -81,6 +82,10 @@ export default class QuickSort {
         h = pi - 1;
       }
     }
+    // another tail recursion algorithm but in sorted arrays it become O (n) space so random pivot
+    // solve this to become O (logn) space
+    // this.#quickSort(arr, l, pi - 1);
+    // l = pi+1;
     return arr;
   }
 }
