@@ -8,7 +8,7 @@ describe("HashTable", () => {
     const hashTable = new HashTable();
     const key = "ac";
     const hashedKey = hashTable.hash(key);
-    console.log(hashedKey)
+    console.log(hashedKey);
     expect(hashedKey).toBeLessThan(32);
   });
   it("stores/sets a key-value in hash table bucket", () => {
@@ -76,7 +76,7 @@ describe("HashTable", () => {
     const allValues = hashTable.getValues();
     expect(allValues[0]).toBe(36);
     expect(allValues[1]).toBe(15);
-    console.log(allValues)
+    console.log(allValues);
   });
   it("gets the size of hash table", () => {
     const hashTable = new HashTable();

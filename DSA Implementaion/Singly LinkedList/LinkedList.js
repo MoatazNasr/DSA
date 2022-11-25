@@ -142,6 +142,7 @@ export default class LinkedList {
       this.head = null;
       this.tail = null;
     }
+    this.length--;
     return deletedHead;
   }
   fromArray(values) {
